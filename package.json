@@ -1,0 +1,16 @@
+{
+  "name": "compress-payload",
+  "version": "0.0.1",
+  "description": "Utiliy for compressing and decompressing RUM payload data",
+  "main": "index.js",
+  "module": "index.js",
+  "keywords": [
+    "compression",
+    "decompression",
+    "rum",
+    "payload"
+  ],
+  "repository": "git@github.com:vigneshshanmugam/compress-payload.git",
+  "author": "vigneshshanmugam <vignesh.shanmugam22@gmail.com>",
+  "license": "MIT"
+}
