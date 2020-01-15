@@ -1,6 +1,6 @@
 {
   "name": "compress-payload",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Utiliy for compressing and decompressing RUM payload data",
   "main": "index.js",
   "module": "index.js",
