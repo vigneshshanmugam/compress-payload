@@ -9,7 +9,7 @@ export function bufferToString(buffer) {
   return decoder.decode(buffer);
 }
 
-export function compress(payload, type = "gzip") {
+export async function compress(payload, type = "gzip") {
   if (typeof payload !== "string") {
     throw new Error("Payload must be in string format");
   }
@@ -20,43 +20,28 @@ export function compress(payload, type = "gzip") {
   writer.write(buffer);
   writer.close();
 
-  return cs;
+  return await read(cs);
 }
 
-export async function decompress(cs, type = "gzip") {
-  const creader = cs.readable.getReader();
+export async function decompress(blob, type = "gzip") {
   const ds = new DecompressionStream(type);
-  const dwriter = ds.writable.getWriter();
-  while (true) {
-    const { value, done } = await creader.read();
-    if (done) break;
-    dwriter.write(value);
-  }
-  dwriter.close();
-  return ds;
+  const decompressedStream = blob.stream().pipeThrough(ds);
+
+  return await read({ readable: decompressedStream });
 }
 
-export async function view(stream) {
+export async function read(stream) {
   const reader = stream.readable.getReader();
   const chunks = [];
-  let totalSize = 0;
 
   while (true) {
     const { value, done } = await reader.read();
     if (done) break;
     chunks.push(value);
-    totalSize += value.byteLength;
   }
+  return new Blob(chunks);
+}
 
-  const concatenate = new Uint8Array(totalSize);
-  let offset = 0;
-  for (const chunk of chunks) {
-    concatenate.set(chunk, offset);
-    offset += chunk.byteLength;
-  }
-
-  return {
-    size: totalSize,
-    contents: bufferToString(concatenate)
-  };
+export async function view(blob) {
+  return await new Response(blob).text();
 }
