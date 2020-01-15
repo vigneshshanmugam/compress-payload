@@ -9,11 +9,11 @@ This module is based on [Compression Streams specification](https://wicg.github.
 import { compress, decomptress, view } from "compress-payload";
 
 const payload = "payload-for-rum-endpoint";
-const compresedStream = compress(payload, "gzip");
-const decompressedStream = await decompress(compresedStream, "gzip");
+const blobData = await compress(payload, "gzip");
+const decompresssedBlobData = await decompress(blob, "gzip");
 
-// View the size of contents of streams
-const { size, contents } = await view(decompressedStream);
+// View the original payload content
+const originalPayload = await view(decompresssedBlobData);
 ```
 
 ##### compress(payload, type)
@@ -22,14 +22,14 @@ const { size, contents } = await view(decompressedStream);
 
 Compress the payload using the `CompressionStream`. `type` denotes either `gzip` or `deflate`. (default - gzip)
 
-##### decompress(cstream, type)
+##### decompress(blob, type)
 
 ---
 
-Decompresssion the payload from the compression stream by reading its contents.
+Decompress the compressed blob data extracted by calling `compress(payload, data)`
 
-##### view(stream)
+##### view(blob)
 
 ---
 
-Reads all the contents from given stream and outputs them as string.
+Read the entire contents of the blob interpreted as UTF-8 text.
