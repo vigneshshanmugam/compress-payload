@@ -8,7 +8,8 @@ This module is based on [Compression Streams specification](https://wicg.github.
 ```js
 import { compress, decomptress, view } from "compress-payload";
 
-const payload = "payload-for-rum-endpoint";
+const payloadObject = {/*Huge JSON RUM data*/}
+const payload = JSON.stringify(payloadObject);
 const blobData = await compress(payload, "gzip");
 const decompresssedBlobData = await decompress(blob, "gzip");
 
