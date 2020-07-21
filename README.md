@@ -6,15 +6,17 @@ This module is based on [Compression Streams specification](https://wicg.github.
 ## API
 
 ```js
-import { compress, decomptress, view } from "compress-payload";
+import { compress, decompress, view } from "compress-payload";
 
-const payloadObject = {/*Huge JSON RUM data*/}
+const payloadObject = {
+  /*Huge JSON RUM data*/
+};
 const payload = JSON.stringify(payloadObject);
-const blobData = await compress(payload, "gzip");
-const decompresssedBlobData = await decompress(blob, "gzip");
+const compressedBlob = await compress(payload, "gzip");
+const decompressedBlob = await decompress(compressedBlob, "gzip");
 
 // View the original payload content
-const originalPayload = await view(decompresssedBlobData);
+const originalPayload = await view(decompressedBlob);
 ```
 
 ##### compress(payload, type)
