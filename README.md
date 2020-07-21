@@ -19,6 +19,23 @@ const decompressedBlob = await decompress(compressedBlob, "gzip");
 const originalPayload = await view(decompressedBlob);
 ```
 
+### Fallback for old browsers
+
+As the API is only available in
+(https://www.chromestatus.com/features#compression)[Chrome > 80], we can feature
+detect and use this library only for non supported browsers.
+
+```js
+const isCompressionStreamSupported = typeof CompressionStream === "function";
+
+let payload = JSON.stringify(payloadObject); // uncompressed
+if (isCompressionStreamSupported) {
+  payload = await compress(payload, "gzip");
+}
+
+navigator.sendBeacon("/rum/endpoint", payload);
+```
+
 ##### compress(payload, type)
 
 ---
